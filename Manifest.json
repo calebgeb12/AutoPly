@@ -15,9 +15,16 @@
   },
   "content_scripts": [
     {
-      "matches": ["https://simplify.jobs/*"],
-      "js": ["content.js"],
-      "run_at": "document_idle"
+      "matches": ["<all_urls>"],
+      "js": ["router.js"],
+      "run_at": "document_idle",
+      "type": "module"
+    }
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": ["apply1.js", "apply2.js"],
+      "matches": ["<all_urls>"]
     }
   ],
   "icons": {
