@@ -11,7 +11,8 @@ export default function () {
       console.log("AutoPly: Auto apply is OFF");
       return;
     }
-
+    
+    alert("working?");
     window.addEventListener("load", () => {
       const tryClick = () => {
         const btn = Array.from(document.querySelectorAll("button.bg-primary-300"))
