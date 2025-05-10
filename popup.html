@@ -2,42 +2,39 @@
 <html>
 <head>
   <title>AutoPly</title>
-  <style>
-    body {
-      font-family: sans-serif;
-      padding: 10px;
-      width: 300px;
-    }
-    textarea {
-      width: 100%;
-      height: 150px;
-      margin-bottom: 10px;
-    }
-    button {
-      width: 100%;
-      margin-top: 5px;
-    }
-    label {
-      display: flex;
-      align-items: center;
-      margin-top: 10px;
-    }
-    input[type="checkbox"] {
-      margin-right: 5px;
-    }
-  </style>
+  <link rel="stylesheet" href="popup.css">
 </head>
 <body>
-  <h2>AutoPly</h2>
-  <textarea id="urlList" placeholder="Paste one job URL per line..."></textarea>
-  <button id="saveLinks">Save Links</button>
-  <button id="clearLinks">Clear Saved Links</button>
-  <button id="openLinks">Open Saved Links</button>
+  <div class="terminal-frame">
+    <div class="scanline"></div>
 
-  <label>
-    <input type="checkbox" id="toggleAutoClick">
-    Enable Auto Apply
-  </label>
+    <h2 class="flicker">AUTOPLY :: SYS-CTRL</h2>
+
+    <textarea id="urlList" placeholder=">>> Paste target job URLs..."></textarea>
+
+    <div class="button-group">
+      <button id="saveLinks">[ SAVE ]</button>
+      <button id="clearLinks">[ CLEAR ]</button>
+      <button id="openLinks">[ OPEN ]</button>
+    </div>
+
+    <label class="toggle">
+      <input type="checkbox" id="toggleAutoClick">
+      <span class="slider"></span>
+      <span class="label-text">Activate Auto Apply Protocol</span>
+    </label>
+
+    <div class="terminal-footer" id="terminalLog">
+      <div class="log-line">[SYS] Booting AutoPly kernel...</div>
+      <div class="log-line">[DBUG] Awaiting link injection...</div>
+      <div class="log-line">[AUTH] Admin verified :: root@AutoPly</div>
+    </div>
+
+    <div class="console-input">
+      <span class="prompt">root@AutoPly:</span>
+      <input type="text" id="consoleCommand" placeholder="enter command..." />
+    </div>
+  </div>
 
   <script src="popup.js"></script>
 </body>

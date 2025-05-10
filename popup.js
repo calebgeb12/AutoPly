@@ -3,6 +3,8 @@ const saveBtn = document.getElementById("saveLinks");
 const clearBtn = document.getElementById("clearLinks");
 const openBtn = document.getElementById("openLinks");
 const toggle = document.getElementById("toggleAutoClick");
+const terminal = document.getElementById("terminalLog");
+const consoleInput = document.getElementById("consoleCommand");
 
 // Load saved links on popup open
 chrome.storage.local.get(["jobLinks", "autoApplyEnabled"], (data) => {
@@ -26,7 +28,7 @@ saveBtn.addEventListener("click", () => {
 
 // Clear saved links
 clearBtn.addEventListener("click", () => {
-  chrome.storage.local.remove("jobLinks", () => {panigales
+  chrome.storage.local.remove("jobLinks", () => {
     textarea.value = "";
     alert("Links cleared.");
   });
@@ -48,4 +50,60 @@ openBtn.addEventListener("click", () => {
       alert("No saved links to open.");
     }
   });
+});
+
+
+/**
+ * 
+ *    aesthetic stuff below 
+ * 
+ */
+
+
+// Terminal command console behavior
+maxLines = 4;
+consoleInput.addEventListener("keydown", (e) => {
+  if (e.key === "Enter") {
+    e.preventDefault();
+    const command = consoleInput.value.trim();
+    if (!command) return;
+
+    const log = (text) => {
+      const line = document.createElement("div");
+      line.className = "log-line";
+      line.textContent = text;
+      terminal.appendChild(line);
+
+      // Limit to last x visible lines
+      const lines = terminal.querySelectorAll(".log-line");
+      if (lines.length > maxLines) {
+        terminal.removeChild(lines[0]);
+      }
+    };
+
+
+    log("> " + command);
+
+    switch (command.toLowerCase()) {
+      case "launch":
+        log("[EXEC] Launching auto apply...");
+        break;
+      case "status":
+        const count = textarea.value
+          .split("\n")
+          .map(l => l.trim())
+          .filter(l => l.startsWith("http")).length;
+        log(`[INFO] ${count} job link(s) loaded.`);
+        break;
+      case "clear":
+        textarea.value = "";
+        chrome.storage.local.remove("jobLinks");
+        log("[SYS] URL list cleared.");
+        break;
+      default:
+        log("[ERR] Unknown command: " + command);
+    }
+
+    consoleInput.value = "";
+  }
 });

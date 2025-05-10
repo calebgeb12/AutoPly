@@ -21,7 +21,9 @@ onFullyLoaded(() => {
   const url = window.location.href;
   const applyBtn1 = Array.from(document.querySelectorAll("button.bg-primary-300"));
   const applyBtn2 = document.querySelector('a[data-automation-id="adventureButton"]');
-  const fillWithResumeBtn = document.querySelector('a[data-automation-id="autofillWithResume"]');
+  const fillWithResumeBtn = document.querySelector('a[data-automation-id="applyManually"]');
+  const createAccount = document.querySelector('a[data-automation-id="applyManually"]');
+
 
 //   alert(applyBtn2);
 

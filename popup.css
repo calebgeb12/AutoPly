@@ -1,0 +1,264 @@
+html, body {
+  width: 360px;
+  height: 400px;
+  margin: 0;
+  padding: 0;
+  font-family: Consolas, monospace;
+  background-color: #000;
+  color: #00ff99;
+
+  background-image: repeating-linear-gradient(
+    0deg,
+    rgba(0, 255, 100, 0.05),
+    rgba(0, 255, 100, 0.05) 1px,
+    transparent 1px,
+    transparent 2px
+  );
+  background-size: 100% 2px;
+
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.terminal-frame {
+  width: 100%;
+  height: 100%;
+  background: #000;
+  padding: 16px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.scanline {
+  content: "";
+  position: absolute;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    to bottom,
+    transparent 0%,
+    rgba(0, 255, 100, 0.03) 50%,
+    transparent 100%
+  );
+  animation: scan 6s linear infinite;
+  z-index: 0;
+  pointer-events: none;
+}
+
+@keyframes scan {
+  0% { transform: translateY(-100%); }
+  100% { transform: translateY(100%); }
+}
+
+.flicker {
+  animation: flicker 3s infinite;
+}
+
+@keyframes flicker {
+  0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% {
+    opacity: 1;
+  }
+  20%, 24%, 55% {
+    opacity: 0.4;
+  }
+}
+
+h2 {
+  font-size: 13px;
+  text-align: center;
+  margin: 0;
+  color: #00ffcc;
+  letter-spacing: 1px;
+  z-index: 2;
+}
+
+textarea {
+  background: #111;
+  color: #00ff99;
+  border: 1px solid #00ff88;
+  border-radius: 6px;
+  padding: 8px;
+  font-size: 11px;
+  resize: none;
+  height: 90px;
+  outline: none;
+}
+
+textarea::placeholder {
+  color: #00ff9955;
+  animation: typeReveal 2.5s steps(30, end) forwards;
+}
+
+textarea:focus {
+  box-shadow: 0 0 8px #00ffcc88;
+}
+
+.button-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+button {
+  background: transparent;
+  border: 1px solid #00ffcc;
+  color: #00ffcc;
+  padding: 6px;
+  font-size: 11px;
+  border-radius: 4px;
+  cursor: pointer;
+  text-align: left;
+  font-weight: bold;
+  position: relative;
+  overflow: hidden;
+}
+
+button:hover {
+  background-color: #00ffcc22;
+  box-shadow: 0 0 8px #00ffcc99;
+}
+
+button:hover::after {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -25%;
+  width: 150%;
+  height: 200%;
+  background: repeating-linear-gradient(
+    45deg,
+    rgba(0, 255, 200, 0.1) 0,
+    rgba(0, 255, 200, 0.1) 2px,
+    transparent 2px,
+    transparent 4px
+  );
+  animation: glitchSlide 1s infinite linear;
+  pointer-events: none;
+}
+
+@keyframes glitchSlide {
+  from {
+    transform: translate(0, 0);
+  }
+  to {
+    transform: translate(10px, 10px);
+  }
+}
+
+.toggle {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #111;
+  border: 1px solid #00ff88;
+  padding: 6px;
+  border-radius: 6px;
+}
+
+.toggle input {
+  display: none;
+}
+
+.slider {
+  width: 26px;
+  height: 14px;
+  background-color: #222;
+  border-radius: 10px;
+  position: relative;
+  transition: background-color 0.2s ease;
+  cursor: pointer;
+}
+
+.slider::before {
+  content: "";
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: #00ffcc;
+  top: 2px;
+  left: 2px;
+  transition: transform 0.2s ease;
+}
+
+.toggle input:checked + .slider::before {
+  transform: translateX(12px);
+}
+
+.toggle input:checked + .slider {
+  background-color: #00ffcc66;
+}
+
+.label-text {
+  margin-left: 10px;
+  font-size: 10px;
+  color: #00ffcc;
+  animation: typeReveal 2s steps(30, end) forwards;
+}
+
+.terminal-footer {
+  font-size: 9px;
+  color: #00ff9944;
+  border-top: 1px dashed #00ff8833;
+  padding-top: 6px;
+  margin-top: 6px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.log-line {
+  margin: 2px 0;
+  animation: typeReveal 2s ease-in-out forwards;
+  white-space: nowrap;
+  overflow: hidden;
+  width: 100%;
+}
+
+@keyframes typeReveal {
+  from {
+    width: 0;
+  }
+  to {
+    width: 100%;
+  }
+}
+
+.console-input {
+  display: flex;
+  align-items: center;
+  background: #0a0a0a;
+  border: 1px solid #00ff8833;
+  border-radius: 6px;
+  padding: 6px;
+  margin-top: 8px;
+  box-shadow: inset 0 0 6px #00ff6633;
+}
+
+.prompt {
+  font-size: 10px;
+  color: #00ff99;
+  margin-right: 6px;
+  white-space: nowrap;
+}
+
+.console-input input {
+  background: transparent;
+  border: none;
+  color: #00ffcc;
+  font-family: Consolas, monospace;
+  font-size: 10px;
+  width: 100%;
+  outline: none;
+}
+
+.console-input input::placeholder {
+  color: #00ffaa55;
+  font-style: italic;
+  opacity: 0.7;
+}
