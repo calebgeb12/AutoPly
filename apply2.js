@@ -1,49 +1,37 @@
 /**
  * This script clicks the second apply button 
- * 
- * 
- * 
  */
 
 export default function () {
-    let retries = 10;
+  let retries = 10;
 
-    function onFullyLoaded(callback) {
-        if (document.readyState === "complete") {
-            callback(); // Page already fully loaded
-        } 
-        else {
-            window.addEventListener("load", callback); // Wait for load event
-        }
+  chrome.storage.local.get("autoApplyEnabled", (data) => {
+    if (!data.autoApplyEnabled) {
+      console.log("AutoPly: Auto apply is OFF");
+      return;
     }
 
-    chrome.storage.local.get("autoApplyEnabled", (data) => {
-        if (!data.autoApplyEnabled) {
-            console.log("AutoPly: Auto apply is OFF");
-            return;
-        }
+    clickButton();
+  });
 
-        onFullyLoaded(() => {
-            clickButton();
-        });
-    });
+  function clickButton() {
+    const btn = document.querySelector('a[data-automation-id="adventureButton"]');
 
-    function clickButton() {
-        const btn = document.querySelector('a[data-automation-id="adventureButton"]');
-        
-        if (btn) {
-            // alert("working");
-            btn.click();
-        } 
-        
-        else if (retries > 0) {
-            console.log("Button not found, retrying...");
-            retries--;
-            setTimeout(() => clickButton(), 500);
-        } 
-        
-        else {
-            alert("button not found after retries");
-        }
+    if (btn) {
+        btn.click();
+
+        // waits 2 seconds before trying to click
+        setTimeout(() => {
+          const resumeBtn = document.querySelector('a[data-automation-id="autofillWithResume"]');
+          if (resumeBtn) resumeBtn.click();
+        }, 500);
+
+    } else if (retries > 0) {
+      console.log("Button not found, retrying...");
+      retries--;
+      setTimeout(clickButton, 500);
+    } else {
+      alert("button not found after retries");
     }
+  }
 }
