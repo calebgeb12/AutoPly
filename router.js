@@ -8,6 +8,8 @@
 const checkDuration = 500;    // in milliseconds
 const maxChecks = 10;
 let currChecks = 0;
+let companyName = "";
+
 
 function onFullyLoaded(callback) {
   if (document.readyState === "complete") {
@@ -43,6 +45,8 @@ function checkAndRunAutomation() {
   }
 
   else if (signInBtn) {
+    const pageUrl = window.location.href;
+    let companyName = pageUrl.match(/^https:\/\/([^\.]+)\.wd5\.myworkdayjobs\.com/)?.[1];
     import(chrome.runtime.getURL("signIn.js")).then(m => m.default());
     return;
   }
