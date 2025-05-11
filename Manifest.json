@@ -23,7 +23,7 @@
   ],
   "web_accessible_resources": [
     {
-      "resources": ["apply1.js", "apply2.js", "createAccount.js"],
+      "resources": ["apply1.js", "apply2.js", "createAccount.js", "signIn.js"],
       "matches": ["<all_urls>"]
     }
   ],

@@ -25,6 +25,7 @@ function checkAndRunAutomation() {
   const applyBtn2 = document.querySelector('a[data-automation-id="adventureButton"]');
   const applyManuallyBtn = document.querySelector('a[data-automation-id="applyManually"]');
   const createAccountBtn = document.querySelector('button[data-automation-id="createAccountSubmitButton"]');
+  const signInBtn = document.querySelector('button[data-automation-id="signInSubmitButton"]');
 
   if (applyBtn1.length && !url.includes("myworkdayjobs.com")) {
     import(chrome.runtime.getURL("apply1.js")).then(m => m.default());
@@ -38,6 +39,11 @@ function checkAndRunAutomation() {
   
   else if (createAccountBtn) {
     import(chrome.runtime.getURL("createAccount.js")).then(m => m.default());
+    return;
+  }
+
+  else if (signInBtn) {
+    import(chrome.runtime.getURL("signIn.js")).then(m => m.default());
     return;
   }
 
