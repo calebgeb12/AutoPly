@@ -5,9 +5,8 @@
 export default function () {
     let emailAddress = "brain.append@gmail.com";
     let password = "G8#rLp9@zQ2W";
-
     let emailUrl = "https://mail.google.com/mail/u/0/?tab=rm&ogbl#inbox";
-    const senderFilter = "Workday"
+
     chrome.storage.local.get("autoApplyEnabled", (data) => {
         if (!data.autoApplyEnabled) {
             console.log("AutoPly: Auto apply is OFF");
@@ -58,28 +57,8 @@ export default function () {
         setTimeout(() => {
             const verifyText = Array.from(document.querySelectorAll('p')).find(p => p.textContent.includes('Verify your account before you sign in'));
             if (verifyText) {
-                window.location.href = emailUrl;                    //goes to email page
-                // verifyEmail();
+                window.open(emailUrl, "_blank");
             }
         }, 500);
     }
-
-    // function verifyEmail() {
-    //     window.location.href = emailUrl;                    //goes to email page
-        
-    //     //filter to find verification link
-    //     const searchEmailInput = document.querySelector('input[aria-label="Search mail"][type="text"]');
-    //     alert(searchEmailInput);
-    //     searchEmailInput.value = senderFilter + " " + companyName;
-    //     searchEmailInput.dispatchEvent(new Event('input', { bubbles: true }));
-    //     searchEmailInput.dispatchEvent(new KeyboardEvent('keydown', {                                      //presses enter in emailFilter field
-    //         key: 'Enter',
-    //         code: 'Enter',
-    //         keyCode: 13,
-    //         which: 13,
-    //         bubbles: true
-    //     }));
-
-    //     // const verificationLink = document.querySelector('a[href*="myworkdayjobs.com"][href*="/activate/"][href*="ApplyManually"]');
-    // }
 }
