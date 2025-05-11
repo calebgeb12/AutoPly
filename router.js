@@ -5,39 +5,46 @@
  * 
  */
 
-delay = 1000;
+const checkDuration = 500;    // in milliseconds
+const maxChecks = 10;
+let currChecks = 0;
+
 function onFullyLoaded(callback) {
   if (document.readyState === "complete") {
-    setTimeout(callback, delay); // Already loaded → just wait
-  } else {
-    window.addEventListener("load", () => {
-      setTimeout(callback, delay); // Wait after 'load' fires
-    });
+    callback(); // Run immediately
+  } 
+  
+  else {
+    window.addEventListener("load", callback); // Wait for full load
   }
 }
 
-
-onFullyLoaded(() => {
+function checkAndRunAutomation() {
   const url = window.location.href;
   const applyBtn1 = Array.from(document.querySelectorAll("button.bg-primary-300"));
   const applyBtn2 = document.querySelector('a[data-automation-id="adventureButton"]');
-  const fillWithResumeBtn = document.querySelector('a[data-automation-id="applyManually"]');
-  const createAccount = document.querySelector('a[data-automation-id="applyManually"]');
+  const applyManuallyBtn = document.querySelector('a[data-automation-id="applyManually"]');
+  const createAccountBtn = document.querySelector('button[data-automation-id="createAccountSubmitButton"]');
 
-
-//   alert(applyBtn2);
-
-  // runs apply1
-  if (applyBtn1 && !url.includes("myworkdayjobs.com")) {
-    // alert("apply1 chosen");
+  if (applyBtn1.length && !url.includes("myworkdayjobs.com")) {
     import(chrome.runtime.getURL("apply1.js")).then(m => m.default());
-  }
-  // runs apply2
+    return;
+  } 
+
   else if (applyBtn2) {
     import(chrome.runtime.getURL("apply2.js")).then(m => m.default());
+    return;
+  } 
+  
+  else if (createAccountBtn) {
+    import(chrome.runtime.getURL("createAccount.js")).then(m => m.default());
+    return;
   }
-  // runs fill with resume
-  else if (fillWithResumeBtn) {
-    // empty for now
+
+  if (currChecks < maxChecks) {
+    currChecks++;
+    setTimeout(checkAndRunAutomation, checkDuration);
   }
-});
+}
+
+onFullyLoaded(checkAndRunAutomation);

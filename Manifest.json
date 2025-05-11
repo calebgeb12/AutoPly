@@ -8,9 +8,9 @@
   "action": {
     "default_popup": "popup.html",
     "default_icon": {
-      "16": "pictures/temp.png",
-      "48": "pictures/temp.png",
-      "128": "pictures/temp.png"
+      "16": "pictures/logo2.png",
+      "48": "pictures/logo2.png",
+      "128": "pictures/logo2.png"
     }
   },
   "content_scripts": [
@@ -23,13 +23,13 @@
   ],
   "web_accessible_resources": [
     {
-      "resources": ["apply1.js", "apply2.js"],
+      "resources": ["apply1.js", "apply2.js", "createAccount.js"],
       "matches": ["<all_urls>"]
     }
   ],
   "icons": {
-    "16": "pictures/temp.png",
-    "48": "pictures/temp.png",
-    "128": "pictures/temp.png"
+    "16": "pictures/logo2.png",
+    "48": "pictures/logo2.png",
+    "128": "pictures/logo2.png"
   }
 }

@@ -22,7 +22,7 @@ export default function () {
 
         // waits 2 seconds before trying to click
         setTimeout(() => {
-          const resumeBtn = document.querySelector('a[data-automation-id="autofillWithResume"]');
+          const resumeBtn = document.querySelector('a[data-automation-id="applyManually"]');
           if (resumeBtn) resumeBtn.click();
         }, 500);
 

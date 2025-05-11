@@ -22,7 +22,7 @@ saveBtn.addEventListener("click", () => {
     .filter(link => link.startsWith("http"));
 
   chrome.storage.local.set({ jobLinks: links }, () => {
-    alert("Links saved!");
+    // alert("Links saved!");
   });
 });
 
@@ -30,7 +30,7 @@ saveBtn.addEventListener("click", () => {
 clearBtn.addEventListener("click", () => {
   chrome.storage.local.remove("jobLinks", () => {
     textarea.value = "";
-    alert("Links cleared.");
+    // alert("Links cleared.");
   });
 });
 
@@ -47,7 +47,7 @@ openBtn.addEventListener("click", () => {
         chrome.tabs.create({ url: link });
       });
     } else {
-      alert("No saved links to open.");
+      // alert("No saved links to open.");
     }
   });
 });
