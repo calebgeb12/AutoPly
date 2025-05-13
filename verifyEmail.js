@@ -1,9 +1,9 @@
 export default function (companyName) {
     //filter by company name and sender
     const senderFilter = " Workday"
-    const tempName = "badger meter";
+    // const tempName = "badger meter";
     const searchEmailInput = document.querySelector('input[aria-label="Search mail"][type="text"]');
-    searchEmailInput.value = senderFilter + " " + tempName;
+    searchEmailInput.value = senderFilter + " " + companyName;
     searchEmailInput.dispatchEvent(new Event('input', { bubbles: true }));
     setTimeout(() => {
         searchEmailInput.dispatchEvent(new KeyboardEvent('keydown', {

@@ -5,12 +5,13 @@
  * 
  */
 
-const checkDuration = 500;    // in milliseconds
+const checkDuration = 2000;    // in milliseconds
 const maxChecks = 10;
 let currChecks = 0;
 
 function onFullyLoaded(callback) {
   if (document.readyState === "complete") {
+    
     callback(); // Run immediately
   } 
   
@@ -20,6 +21,11 @@ function onFullyLoaded(callback) {
 }
 
 function checkAndRunAutomation() {
+chrome.storage.local.get("autoApplyEnabled", (data) => {
+    if (!data.autoApplyEnabled) {
+      return;
+    } 
+
   const url = window.location.href;
   const applyBtn1 = Array.from(document.querySelectorAll("button.bg-primary-300"));
   const applyBtn2 = document.querySelector('a[data-automation-id="adventureButton"]');
@@ -29,10 +35,12 @@ function checkAndRunAutomation() {
   const isEmailInbox = url.includes("mail.google.com") && window.location.href.includes("inbox");
   const isEmailFilter = url.includes("mail.google.com") && window.location.href.includes("search");
   const simplifyAutoFillBtn = [...document.querySelectorAll('*')]
-  .map(e => e.shadowRoot)
-  .filter(Boolean)
-  .flatMap(r => [...r.querySelectorAll('button, span')])
-  .find(el => el.textContent.includes("Autofill this page"));
+      .map(e => e.shadowRoot)
+      .filter(Boolean)
+      .flatMap(r => [...r.querySelectorAll('button, span')])
+      .find(el => el.textContent.includes("Autofill this page"));
+  const myInfoHeader = Array.from(document.querySelectorAll('h2')).find(el => el.textContent.trim() === "My Information");
+
 
   //stage 1: click first apply button
   if (applyBtn1.length && !url.includes("myworkdayjobs.com")) {
@@ -73,18 +81,18 @@ function checkAndRunAutomation() {
   }
 
   //stage 6: start filling form
-  else if (simplifyAutoFillBtn) {
+  else if (myInfoHeader) {
     setTimeout(() => {
       import(chrome.runtime.getURL("formFill.js")).then(m => m.default());
-    }, 3500);
-    return;
+    }, 2500);
+      return;
   }
 
   if (currChecks < maxChecks) {
     currChecks++;
     setTimeout(checkAndRunAutomation, checkDuration);
   }
-}
+});}
 
 
 onFullyLoaded(checkAndRunAutomation);
