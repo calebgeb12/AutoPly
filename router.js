@@ -11,23 +11,22 @@ let currChecks = 0;
 
 function onFullyLoaded(callback) {
   if (document.readyState === "complete") {
-    
-    callback(); // Run immediately
+    callback(); 
   } 
   
   else {
-    window.addEventListener("load", callback); // Wait for full load
+    window.addEventListener("load", callback); 
   }
 }
 
 function checkAndRunAutomation() {
 chrome.storage.local.get("autoApplyEnabled", (data) => {
-    if (!data.autoApplyEnabled) {
-      return;
-    } 
+  if (!data.autoApplyEnabled) {
+    return;
+  } 
 
   const url = window.location.href;
-  const applyBtn1 = Array.from(document.querySelectorAll("button.bg-primary-300"));
+  const applyBtn1 = Array.from(document.querySelectorAll("button.bg-primary-400"));
   const applyBtn2 = document.querySelector('a[data-automation-id="adventureButton"]');
   const applyManuallyBtn = document.querySelector('a[data-automation-id="applyManually"]');
   const createAccountBtn = document.querySelector('button[data-automation-id="createAccountSubmitButton"]');
@@ -35,13 +34,15 @@ chrome.storage.local.get("autoApplyEnabled", (data) => {
   const isEmailInbox = url.includes("mail.google.com") && window.location.href.includes("inbox");
   const isEmailFilter = url.includes("mail.google.com") && window.location.href.includes("search");
   const simplifyAutoFillBtn = [...document.querySelectorAll('*')]
-      .map(e => e.shadowRoot)
-      .filter(Boolean)
-      .flatMap(r => [...r.querySelectorAll('button, span')])
-      .find(el => el.textContent.includes("Autofill this page"));
+  .map(e => e.shadowRoot)
+  .filter(Boolean)
+  .flatMap(r => [...r.querySelectorAll('button, span')])
+  .find(el => el.textContent.includes("Autofill this page"));
   const myInfoHeader = Array.from(document.querySelectorAll('h2')).find(el => el.textContent.trim() === "My Information");
-
-
+  
+  // alert(applyBtn2);
+  
+  
   //stage 1: click first apply button
   if (applyBtn1.length && !url.includes("myworkdayjobs.com")) {
     import(chrome.runtime.getURL("apply1.js")).then(m => m.default());

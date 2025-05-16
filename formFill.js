@@ -50,32 +50,46 @@ export default function () {
         let functionToRun = currArray[0];
         let answer = currArray[1];
         functionToRun(currInput, answer);
-
     }
     
     function chooseFromContainer(input, answer) {
+        //step 1: clicks input field
+        input.dispatchEvent(new MouseEvent('mousedown', { bubbles: true }));
+        input.focus();
+        
+        //step 2 to last: finds & toggle button --> inputs "Other" --> presses enter --> presses "Other"
+        setTimeout(() => {
         let multiselectId = input.getAttribute('data-uxi-multiselect-id');
-        // alert(multiselectId);
-        // let toggleBtn = document.querySelector(`[data-automation-id="promptSearchButton"][data-uxi-multiselect-id="${multiselectId}"]`);
-        // let toggleBtn = document.querySelector(`[data-uxi-multiselect-id="${multiselectId}"]`);
-        // if (toggleBtn === input) {
-        //     alert("toggleBtn is the input itself");
-        // } else {
-        //     alert("toggleBtn is NOT the input");
-        // }
+        const toggleBtn = document.querySelector(`span[data-uxi-multiselect-id="${multiselectId}"]`);
+        if (toggleBtn) {
+            toggleBtn.dispatchEvent(new MouseEvent('mousedown', { bubbles: true }));
+            toggleBtn.click();
 
-        const allMatches = document.querySelectorAll(`[data-uxi-multiselect-id="${multiselectId}"]`);
-        alert(allMatches.length);
+            setTimeout(() => {
+            input.value = "Other";
+            input.dispatchEvent(new InputEvent('input', { bubbles: true }));
 
-        // alert(toggleBtn);
-        // let candidates = document.querySelector(`[data-uxi-multiselect-id="${multiselectId}"]`);
-        // alert(candidates.length);
-        // for (let i = 0; i < candidates; i++) {
-        //     alert(candidates);
-        // }
+            setTimeout(() => {
+                input.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter', code: 'Enter', bubbles: true }));
+                input.dispatchEvent(new KeyboardEvent('keypress', { key: 'Enter', code: 'Enter', bubbles: true }));
+                input.dispatchEvent(new KeyboardEvent('keyup', { key: 'Enter', code: 'Enter', bubbles: true }));
+
+                setTimeout(() => {
+                    // const options = Array.from(document.querySelectorAll('[data-uxi-widget-type="multiselectlistitem"]'));
+                    // alert(options.length);
+                    const firstOption = document.querySelector('[data-uxi-widget-type="multiselectlistitem"]');
+                    if (firstOption) {
+                        firstOption.dispatchEvent(new MouseEvent('mousedown', { bubbles: true }));
+                        firstOption.click();
+                    }
+                    
+                }, 300);
+            }, 300);
+            }, 200);
+        }
+        }, 200);
 
 
-        // const toggleBtn = document.querySelector('span[data-automation-id="promptSearchButton"]');
 
         // if (toggleBtn) {
         // toggleBtn.dispatchEvent(new MouseEvent('mousedown', { bubbles: true }));

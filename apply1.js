@@ -6,14 +6,15 @@ export default function () {
   chrome.storage.local.get("autoApplyEnabled", (data) => {
     if (!data.autoApplyEnabled) {
       console.log("AutoPly: Auto apply is OFF");
-      return;
+      return; 
     }
-
+    
     const tryClick = () => {
-      const btn = Array.from(document.querySelectorAll("button.bg-primary-300"))
-        .find(el => el.textContent.trim().toLowerCase().includes("apply"));
-
+      const btn = Array.from(document.querySelectorAll("button.bg-primary-400"))
+      .find(el => el.textContent.trim().toLowerCase().includes("apply"));
+      
       if (btn) {
+        // alert("here");
         console.log("AutoPly: Clicking apply button");
         btn.click();
       } else {
