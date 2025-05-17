@@ -2,15 +2,46 @@ export default function () {
     
     //hashmap below contains answer to all questions (maybe?)
     let hashMap = {
-        "How Did You Hear About Us?*": [chooseFromContainer, "Other"]
-        // ""
+        //container questions
+        "How Did You Hear About Us?*": [chooseFromContainer, "Other"],
+
+        //choose from list questions
+        "State": [chooseFromList, "Georgia"],
+        "State*": [chooseFromList, "Georgia"],
+
+        //simple questions
+        "First Name*": [enterAnswer, "Caleb"],
+        "Last Name*": [enterAnswer, "Gebremeskel"],
+        "Address Line 1": [enterAnswer, "1609 Virginia Pine Circle SW"],
+        "Address Line 1*": [enterAnswer, "1609 Virginia Pine Circle SW"],
+        "City": [enterAnswer, "Lilburn"],
+        "City*": [enterAnswer, "Lilburn"],
+        "Postal Code": [enterAnswer, "30047"],
+        "Postal Code*": [enterAnswer, "30047"],
+        "Zip Code": [enterAnswer, "30047"],
+        "Zip Code*": [enterAnswer, "30047"],
+
+        //yes or no question
+
+        //do nothing questions
+        "I have a preferred name": [doNothing, "useless"]
     };
 
     //fills the current page
     function fillPage() {
-        //get list of all inputs, and associate them with their parent
+        //get list of all inputs, and associate them with their question
         let inputsArray = Array.from(document.querySelectorAll('input'));
         let questionsArray = new Array(inputsArray.length); 
+        
+        //detects dropdown box that have button with id instead of input with id
+        for (let i = 0; i < inputsArray.length; i++) {
+            let input = inputsArray[i];
+            let btn = input.previousElementSibling?.tagName === 'BUTTON' ? input.previousElementSibling : input.nextElementSibling?.tagName === 'BUTTON' ? input.nextElementSibling : null;
+            if (btn) { //is a dropdown
+                inputsArray[i] = btn;
+            }
+        }
+        
         for (let i = 0; i < inputsArray.length; i++) {
             let currInput = inputsArray[i];
             let inputId = currInput.id;
@@ -21,43 +52,47 @@ export default function () {
             }
             
             questionsArray[i] = labelText;
+            console.log(labelText);
         }
 
         // for (let i = 0; i < inputsArray.length; i++) {
         //     let currInput = inputsArray[i];
         //     let currQuestion = questionsArray[i];
-        //     alert(currQuestion);
 
-        //     //we have an answer
-        //     if (hashMap.hasOwnProperty(currQuestion)) {
-        //         let currArray = hashMap[currQuestion];
-        //         let functionToRun = currArray[0];
-        //         let answer = currArray[1];
-        //         functionToRun(currInput, answer);
-        //     }
+        //     // //we have an answer
+        //     // if (hashMap.hasOwnProperty(currQuestion)) {
+        //     //     let currArray = hashMap[currQuestion];
+        //     //     let functionToRun = currArray[0];
+        //     //     let answer = currArray[1];
+        //     //     functionToRun(currInput, answer);
+        //     // }
 
-        //     //unique question
-        //     else {
-        //         alert("not in hashmap");
-        //     }
+        //     // //unique question
+        //     // else {
+
+        //     // }
         // }
 
         //only for testing
-        let currInput = inputsArray[0];
-        let currQuestion = questionsArray[0];
-        // alert(currQuestion);
+        let currInput = inputsArray[7];
+        let currQuestion = questionsArray[7];
         let currArray = hashMap[currQuestion];
         let functionToRun = currArray[0];
         let answer = currArray[1];
         functionToRun(currInput, answer);
     }
     
+    function enterAnswer(input, answer) {
+        input.value = answer;
+        input.dispatchEvent(new Event('input', { bubbles: true }));
+    }
+
     function chooseFromContainer(input, answer) {
         //step 1: clicks input field
         input.dispatchEvent(new MouseEvent('mousedown', { bubbles: true }));
         input.focus();
         
-        //step 2 to last: finds & toggle button --> inputs "Other" --> presses enter --> presses "Other"
+        //step 2 to last: finds & toggle button --> inputs answer --> presses enter --> presses "Other"
         setTimeout(() => {
         let multiselectId = input.getAttribute('data-uxi-multiselect-id');
         const toggleBtn = document.querySelector(`span[data-uxi-multiselect-id="${multiselectId}"]`);
@@ -66,7 +101,7 @@ export default function () {
             toggleBtn.click();
 
             setTimeout(() => {
-            input.value = "Other";
+            input.value = answer;
             input.dispatchEvent(new InputEvent('input', { bubbles: true }));
 
             setTimeout(() => {
@@ -76,41 +111,43 @@ export default function () {
 
                 setTimeout(() => {
                     // const options = Array.from(document.querySelectorAll('[data-uxi-widget-type="multiselectlistitem"]'));
-                    // alert(options.length);
                     const firstOption = document.querySelector('[data-uxi-widget-type="multiselectlistitem"]');
                     if (firstOption) {
                         firstOption.dispatchEvent(new MouseEvent('mousedown', { bubbles: true }));
                         firstOption.click();
                     }
-                    
+
                 }, 300);
             }, 300);
             }, 200);
         }
         }, 200);
+    }
 
+    function chooseFromList(btn, answer) {
+        console.log("worked");
+        //click button
+        
+        //choose from list
 
+        setTimeout(() => {
+            if (btn) {
+                btn.click();
 
-        // if (toggleBtn) {
-        // toggleBtn.dispatchEvent(new MouseEvent('mousedown', { bubbles: true }));
-        // toggleBtn.click();
+                setTimeout(() => {
 
-        // setTimeout(() => {
-        //     const firstOption = document.querySelector('[role="option"]:not([aria-disabled="true"])');
-        //     if (firstOption) {
-        //     firstOption.dispatchEvent(new MouseEvent('mousedown', { bubbles: true }));
-        //     firstOption.click();
-        //     } else {
-        //     alert("No dropdown option found.");
-        //     }
-        // }, 500);
-        // } else {
-        // alert("Dropdown toggle not found.");
-        // }
+                }, 500); 
+            }
+        }, 300); 
+
     }
 
 
     function yesOrNo() {
+
+    }
+
+    function doNothing() {
 
     }
 
